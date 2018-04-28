@@ -67,6 +67,7 @@
             $ajout = mysqli_execute($insertstm2);
             header('Location: ../reseau.php');    
         }
+        //commentaire
     } 
 
 ?>

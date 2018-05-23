@@ -6,9 +6,14 @@
 	$bdd = new PDO('mysql:host=localhost;dbname=ecebond;charset=utf8', 'root', '');
 
 	// identifier quelle session est ouverte : récupérer le login 
-	session_start();
-	//echo $_SESSION['login'];
-	$Log = $_SESSION['login'];
+    session_start();
+    if(isset($_SESSION['login'])) {
+        $Log = $_SESSION['login'];
+    } else {
+        echo '<script>alert("Vous n êtes pas connecté");</script>';
+        header('Location: Connexion.php');
+    }
+	
 	
 	//afficher le profil de la personne connectée
 	$reponse = $bdd->query("SELECT * FROM utilisateur WHERE login = '".$Log."'");
@@ -16,10 +21,11 @@
 	$Nom = $donnees['nom'];
 	$Prenom = $donnees['prenom'];
 	$Email = $donnees['email'];
-	$Maj = $donnees['majeure'];
-	$Pro = $donnees['promotion'];
+	$Majeure = $donnees['majeure'];
+    $Promo = $donnees['promotion'];
+    $travail = $donnees['travail'];
+    $photo_profile = $donnees['photoprofil'];
 	
-	if($Maj == "NULL") { $Maj = "";}
 	
 	
 	// afficher les posts existants dans le serveur 
@@ -107,7 +113,7 @@
                 <li><a href="message.php">Messagerie</a></li>
                 <li><a href="notif.php">Notifications</a></li>
                 <li ><a href="profil.php">Vous</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
+                <li><a href="Connexion.php"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
             </ul>
             </div>
         </div>
@@ -117,21 +123,22 @@
         <div id="frame">
         <div class="sidebar-wrapper pull-left">
                 <div class="profile-container">
-                    <img class="img-responsive img-profil center-block" src="assets/images/fjords.jpg" alt="" />
+                <?php echo '
+                   <img class="img-responsive img-profil center-block" src="assets/images/'.$photo_profile.'" alt="" />
 
-				<h3 class="name"> <?php echo " ".$Nom."  ".$Prenom ?> </h3>
-                  <!--  <h5 class="tagline">Trapeur</h5>-->
+				<h3 class="name">'.$Nom.'  '.$Prenom.'</h3>
+                  <!--  <h5 class="tagline">'.$travail.'</h5>-->
                 </div>
                 <div class="contact-container container-block">
                     <ul class="list-unstyled contact-list">
-                        <li><i class="fa fa-envelope"></i> <a href="mailto: yourname@email.com"><?php echo " ".$Email ?> </a></li>
-                        <li><i class="fa fa-graduation-cap"></i> <?php echo " ".$Pro ?> </li>
-						<li><i class="fa fa-briefcase"></i> <?php echo " ".$Maj?> </li>
+                        <li><i class="fa fa-envelope"></i> <a href="mailto: '.$Email.'">'.$Email.'</a></li>
+                        <li><i class="fa fa-graduation-cap"></i>'.$Promo.'</li>
+						<li><i class="fa fa-briefcase"></i>'.$Majeure.'</li>
                     </ul>
                     <br/>
                     <a href="profil.php">afficher profil</a><br>
                     <a href="change_profil.php">modifier profil</a>
-                    
+                    ';  ?>
                 </div> 
                 
         </div>

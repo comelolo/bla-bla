@@ -1,17 +1,24 @@
 <?php
 require('server_connexion.php');
 $con = connect_and_select_db();
-$id_profile = "ad";
+
+session_start();
+    if(isset($_SESSION['login']) && $_SESSION['login'] != "") {
+        $id_profile = $_SESSION['login'];
+    } else {
+        echo '<script>alert("Vous n êtes pas connecté");</script>';
+        header('Location: Connexion.php');
+    }
+    
 
 function add_comment() {
     $con = connect_and_select_db();
     $message = $_POST['new_message'];
     $discussion_active = $_GET['discus'];
     $date = date("Y-m-d h:i:s");
-    $id_profile = "ad";
 
     if ($message != "") {
-    $requete = $insertStmt = "INSERT message (id_discussion, id_emetteur, moment, textemessage)
+    $requete = "INSERT message (id_discussion, id_emetteur, moment, textemessage)
     values ('$discussion_active', '$id_profile', '$date', '$message')";
     $result = mysqli_query($con, $requete);
     }
@@ -22,6 +29,15 @@ if (isset($_POST['new_message'])) {
     echo "<meta http-equiv='refresh' content='0'>";
     return;
 }
+
+
+//afficher le profil de la personne connectée
+$reponse = $con->query("SELECT nom, prenom, photoprofil FROM utilisateur WHERE login = '".$id_profile."'");
+$donnees = mysqli_fetch_array($reponse);
+$Nom = $donnees['nom'];
+$Prenom = $donnees['prenom'];
+$photo_profile = $donnees['photoprofil'];
+if ($photo_profile=="") {$photo_profile="assets/images/batman.jpg";}
 
 ?>
 
@@ -91,23 +107,21 @@ if (isset($_POST['new_message'])) {
                 <li><a href="message.php">Messagerie</a></li>
                 <li><a href="notif.php">Notifications</a></li>
                 <li ><a href="profil.php">Vous</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
+                <li><a href="Connexion.php"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
             </ul>
             </div>
         </div>
-    </nav>
+</nav>
 
     <div class="wrapper">
         <div id="frame">
             <div id="sidepanel">
                 <div id="profile">
                     <div class="wrap">
-                        <!-- commande SQL pour récupérer les infos du client  -->
                         <?php
-                        $photo_profile = "assets/images/profile.png";
                         echo '
                         <img id="profile-img" src='.$photo_profile.' alt="" />
-                        <p>Jean Pierre Segado</p>
+                        <p>'.$Prenom.' '.$Nom.'</p>
                         ';
                         ?>
                     </div>

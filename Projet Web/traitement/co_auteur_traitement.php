@@ -44,7 +44,7 @@
 			// identifier quelle session est ouverte : récupérer le login 
 			session_start();
 			$_SESSION['login']= $Login1;
-			header('Location: index.php');
+			header('Location: ../index.php');
 		}
 		else 
 		{

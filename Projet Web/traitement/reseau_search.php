@@ -1,20 +1,15 @@
 <?php
-	
-	define (DB_USER, "root");
-	define (DB_PASSWORD, "");
-	define (DB_DATABASE, "ecebond");
-	define (DB_HOST, "localhost");
-	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-
+	require('server_connexion.php');
+	$con = connect_and_select_db();
+	$querry = $_GET['query'];
 	$sql = "SELECT prenom, nom FROM utilisateur
-            WHERE prenom LIKE '".$_GET['query']."%'
-            OR nom LIKE '".$_GET['query']."%'
+            WHERE prenom LIKE '".$querry."%'
+            OR nom LIKE '".$querry."%'
 			LIMIT 10"; 
-	$result = $mysqli->query($sql);
-	
+	$result = mysqli_query($con, $sql);
 	$json = [];
-	while($row = $result->fetch_assoc()){
-	     $json[] = $row['title'];
+	while($row = mysqli_fetch_assoc($result)){
+		 $json[] = $row['prenom'] . ' ' . $row['nom'];
 	}
 
 	echo json_encode($json);

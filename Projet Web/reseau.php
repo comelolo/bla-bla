@@ -5,7 +5,7 @@ session_start();
 if(isset($_SESSION['login'])) {
     $Log = $_SESSION['login'];
 } else {
-    header('Location: Connexion.php');
+    header('Location: ../Connexion.php');
 }
 //afficher le profil de la personne connectée
 $reponse = $con->query("SELECT * FROM utilisateur WHERE login = '".$Log."'");

@@ -56,7 +56,7 @@
 <br>
 
 <div class="main">
-    <form name="myform" action="Pagedaccueil_traitement.php" method="post" >
+    <form name="myform" action="traitement/Pagedaccueil_traitement.php" method="post" >
 
         <div id="alertbox" class="alert alert-danger alert-dismissable fade in" style="display: none; color: black; white-space: pre-wrap;">
 

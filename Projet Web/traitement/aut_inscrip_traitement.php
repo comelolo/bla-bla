@@ -18,7 +18,7 @@
 		
 
 	// connection à la bdd
-	require('server_connexion.php');
+	require('../server_connexion.php');
 	$con = connect_and_select_db();
 
 	// identifier quelle session est ouverte : récupérer le login 

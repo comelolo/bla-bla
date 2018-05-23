@@ -11,7 +11,7 @@
         $Log = $_SESSION['login'];
     } else {
         echo '<script>alert("Vous n êtes pas connecté");</script>';
-        header('Location: Connexion.php');
+        header('Location: ../Connexion.php');
     }
 	
 	
@@ -40,13 +40,19 @@
 	
 	$rep = $bdd->query('SELECT * FROM posts ORDER BY d_h');
 
-	function liker()
+	function deliker($id_post,$Loging_u)
 	{
-		// liker_traitement.php?id_post='.$Id_P.''
-		header('Location: Connexion.php');
+		// traitement/liker_traitement.php?id_post='.$Id_P.''
+		//header('Location: ../Connexion.php');
+			// les variables
+		$bdd->exec("DELETE FROM liker WHERE id_post =".$id_post." AND id_utilisateur ='".$Loging_u."'");
+		header('Location: ../index.php');
 	}
-	function deliker()
+	
+	function liker($id_post,$Loging_u)
 	{
+		$bdd->exec("INSERT INTO liker(id_post, id_utilisateur) VALUES(".$id_post.", '".$Loging_u."')");
+		header('Location: ../index.php');
 	}
 ?>
 
@@ -224,20 +230,21 @@
 		// recuperer nb de like par posts
 		$reponse2 = $bdd->query("SELECT COUNT(id_post) AS c FROM liker WHERE id_post=".$Id_P);
 		$donnees2 = $reponse2->fetch();
-		$reponse3 = $bdd->query("SELECT * FROM liker WHERE id_utilisateur='".$L_ut."' AND id_post=".$Id_P);
+		$reponse3 = $bdd->query("SELECT * FROM liker WHERE id_post=".$Id_P);
 		$donnees3 = $reponse3->fetch();
+		// la personne qui a liker le post
 		$u = $donnees3['id_utilisateur'];
-		if($u != "")
+		if($u == $Log)
 		{
-			//liker_traitement_retour.php?id_post='.$Id_P.'
-			echo '<button onclick="liker();" class="btn btn"> Deja Liker['.$donnees2['c'].'] <i class="fa fa-thumbs-o-up"></i></button><button class="btn btn-default">Partager <i class="glyphicon glyphicon-share"></i></button>';
-			//echo '<a  href = "liker_traitement_retour.php?id_post='.$Id_P.'"> Deja Liker['.$donnees2['c'].'] </a>';
+			//traitement/liker_traitement_retour.php?id_post='.$Id_P.'
+			echo '<button onclick="deliker('.$Id_P.','.$L_ut.');" class="btn btn"> Deja Liker['.$donnees2['c'].'] <i class="fa fa-thumbs-o-up"></i></button><button class="btn btn-default">Partager <i class="glyphicon glyphicon-share"></i></button>';
+			//echo '<a  href = "traitement/liker_traitement_retour.php?id_post='.$Id_P.'"> Deja Liker['.$donnees2['c'].'] </a>';
 			//echo "peut pas liker";
 		}
 		else
 		{
-			echo '<button onclick="liker();" class="btn btn"> Liker['.$donnees2['c'].'] <i class="fa fa-thumbs-o-up"></i></button><button class="btn btn-default">Partager <i class="glyphicon glyphicon-share"></i></button>';
-			//echo '<a  href = "liker_traitement.php?id_post='.$Id_P.'"> Liker['.$donnees2['c'].'] </a>';
+			echo '<button onclick="liker('.$Id_P.','.$L_ut.');" class="btn btn"> Liker['.$donnees2['c'].'] <i class="fa fa-thumbs-o-up"></i></button><button class="btn btn-default">Partager <i class="glyphicon glyphicon-share"></i></button>';
+			//echo '<a  href = "traitement/liker_traitement.php?id_post='.$Id_P.'"> Liker['.$donnees2['c'].'] </a>';
 			//echo "peut liker";
 		}
 ?>

@@ -73,7 +73,7 @@
 <br>
 
 <div class="main">
-    <form name="myform" action="co_ad_traitement.php" method="POST">
+    <form name="myform" action="traitement/co_ad_traitement.php" method="POST">
 
         <table id="Formulaire">
             <fieldset>

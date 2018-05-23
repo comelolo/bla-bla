@@ -7,7 +7,7 @@ session_start();
         $id_profile = $_SESSION['login'];
     } else {
         echo '<script>alert("Vous n êtes pas connecté");</script>';
-        header('Location: Connexion.php');
+        header('Location: ../Connexion.php');
     }
     
 

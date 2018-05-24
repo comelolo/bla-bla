@@ -95,7 +95,7 @@
             <br><br>
 		</form>
 		
-		<form name="myform" action="val_ins_traitement.php" method="POST">
+		<form name="myform" action="traitement/val_ins_traitement.php" method="POST">
             
             <table>
                 <tr class="spaceUnder">

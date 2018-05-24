@@ -7,15 +7,16 @@ session_start();
         $id_profile = $_SESSION['login'];
     } else {
         echo '<script>alert("Vous n êtes pas connecté");</script>';
-        header('Location: Connexion.php');
+        header('Location: ../Connexion.php');
     }
     
 
-function add_comment() {
+function add_comment($id_profile) {
     $con = connect_and_select_db();
     $message = $_POST['new_message'];
     $discussion_active = $_GET['discus'];
     $date = date("Y-m-d h:i:s");
+    $id_profile = $id_profile;
 
     if ($message != "") {
     $requete = "INSERT message (id_discussion, id_emetteur, moment, textemessage)
@@ -25,19 +26,19 @@ function add_comment() {
 }
 
 if (isset($_POST['new_message'])) {
-    echo add_comment();
+    echo add_comment($id_profile);
     echo "<meta http-equiv='refresh' content='0'>";
     return;
 }
 
 
 //afficher le profil de la personne connectée
-$reponse = $con->query("SELECT nom, prenom, photoprofil FROM utilisateur WHERE login = '".$id_profile."'");
+$reponse = mysqli_query($con, "SELECT * FROM utilisateur WHERE login = '".$id_profile."'");
 $donnees = mysqli_fetch_array($reponse);
 $Nom = $donnees['nom'];
 $Prenom = $donnees['prenom'];
 $photo_profile = $donnees['photoprofil'];
-if ($photo_profile=="") {$photo_profile="assets/images/batman.jpg";}
+if ($photo_profile=="") {$photo_profile="batman.jpg";}
 
 ?>
 
@@ -120,7 +121,7 @@ if ($photo_profile=="") {$photo_profile="assets/images/batman.jpg";}
                     <div class="wrap">
                         <?php
                         echo '
-                        <img id="profile-img" src='.$photo_profile.' alt="" />
+                        <img id="profile-img" src="assets/images/'.$photo_profile.'" alt="" />
                         <p>'.$Prenom.' '.$Nom.'</p>
                         ';
                         ?>
@@ -143,7 +144,7 @@ if ($photo_profile=="") {$photo_profile="assets/images/batman.jpg";}
                                     $lastname = $data['nom'];
                                     $firstname = $data['prenom'];
                                     $photo = $data['photoprofil'];
-                                    if ($photo=="") {$photo="assets/images/batman.jpg";}
+                                    if ($photo=="") {$photo="batman.jpg";}
                                     if(isset($_GET['contact'])){
                                         if ($discu['emetteur'] == $_GET['contact']) { $active="active";} else {$active="";}
                                     } else {$active="";}
@@ -151,7 +152,7 @@ if ($photo_profile=="") {$photo_profile="assets/images/batman.jpg";}
                                     <a href="message.php?contact='.$discu['emetteur'].'&amp;discus='.$discu['id_discus'].'">
                                     <li id="'.$discu["emetteur"].'" class="contact '.$active.'">
                                         <div class="wrap">
-                                            <img src=' .$photo. ' alt="" />
+                                            <img src="assets/images/'.$photo.'" alt="" />
                                                 <div class="meta">
                                                 <p class="name">' .$firstname. ' ' .$lastname. '</p>
                                                 <p class="preview">...</p>
@@ -181,9 +182,9 @@ if ($photo_profile=="") {$photo_profile="assets/images/batman.jpg";}
                         $lastname = $data['nom'];
                         $firstname = $data['prenom'];
                         $photo_contact = $data['photoprofil'];
-                        if ($photo_contact=="") {$photo_contact="assets/images/batman.jpg";}
+                        if ($photo_contact=="") {$photo_contact="batman.jpg";}
                         echo' 
-                        <img src='.$photo_contact.' alt="" />
+                        <img src="assets/images/'.$photo_contact.'" alt="" />
                         <p>'.$firstname.' '.$lastname.'</p>';
                     }
                     }
@@ -206,7 +207,7 @@ if ($photo_profile=="") {$photo_profile="assets/images/batman.jpg";}
                             }
                             echo'
                             <li class='.$class.'>
-                                <img src='.$photo_text.' alt="" />
+                                <img src="assets/images/'.$photo_text.'" alt="" />
                                 <p>'.$message.'</p>
                             </li>';
                         }

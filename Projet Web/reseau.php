@@ -5,7 +5,7 @@ session_start();
 if(isset($_SESSION['login'])) {
     $Log = $_SESSION['login'];
 } else {
-    header('Location: Connexion.php');
+    header('Location: ../Connexion.php');
 }
 //afficher le profil de la personne connectée
 $reponse = $con->query("SELECT * FROM utilisateur WHERE login = '".$Log."'");
@@ -17,13 +17,8 @@ $travail = $donnees['travail'];
 $promo = $donnees['promotion'];
 $majeure = $donnees['majeure'];
 $photo_profile = $donnees['photoprofil'];
-if ($photo_profile=="") {$photo_profile="assets/images/batman.jpg";}
+if ($photo_profile=="") {$photo_profile="batman.jpg";}
 
-function coucou() {
-    echo '<script type="text/javascript">';
-	echo 'alert("waaaaazzzaaaaaaa!!!");';
-	echo '</script>';
-}
 
 ?>
 
@@ -176,7 +171,7 @@ function coucou() {
         <div class="sidebar-wrapper pull-left">
             <?php echo'
             <div class="profile-container">
-                <img class="img-responsive img-profil center-block" src="assets/images/'. $photo_profile .'" alt="" />
+                <img class="img-responsive img-profil center-block" src="assets/images/'.$photo_profile.'" alt="" />
                 <h3 class="name">'.$Prenom.' '.$Nom.'</h3>
                 <h5 class="tagline">'.$travail.'</h5>
             </div>

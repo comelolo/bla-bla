@@ -8,7 +8,7 @@
 </head>
 
 <body>
-	<form action="inscription_traitement.php" method="post">
+	<form action="traitement/inscription_traitement.php" method="post">
 		<table id="Formulaire">
 			<legend> Formulaire inscription eleve </legend>
 				<tr>

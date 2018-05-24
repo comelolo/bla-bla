@@ -24,7 +24,7 @@
 	<?php
 //session_start();
 //echo $_SESSION['login'];
-//echo '<form action="aut_inscrip_traitement.php?login='.$_GET['login'].'&amp;email='.$_GET['email'].'&amp;" method="post">';
+//echo '<form action="traitement/aut_inscrip_traitement.php?login='.$_GET['login'].'&amp;email='.$_GET['email'].'&amp;" method="post">';
 ?>
 		<div class="formulaire">
 							<div class="panel panel-default">
@@ -35,7 +35,7 @@
 								</div>
 								<div class="panel-body">
 									<fieldset>
-										<form name="inscription" id="inscription" onsubmit="return addItemValidation();" method="POST" action="aut_inscrip_traitement.php">
+										<form name="inscription" id="inscription" onsubmit="return addItemValidation();" method="POST" action="traitement/aut_inscrip_traitement.php">
 											<table id="Formulaire">
 												<tr class="spaceUnder">
 													<td>

@@ -9,16 +9,16 @@
 	$promotion = $_POST['promotion'];
 	$majeure = $_POST['majeure'];
 	$travail = $_POST['post']; 
-	$photo = $_FILES["photo"]['name'];
+	$photo = $_FILES['photo']['name'];
 	$adresse = '/wamp64/www/bla-bla/Projet Web/assets/images/'.basename($_FILES['photo']['name']);
-	$upload_photo = move_uploaded_file($_FILES["photo"]['tmp_name'], $adresse);
+	move_uploaded_file($_FILES["photo"]['tmp_name'], $adresse);
 	$promo = "$promotion";
 	$majeure = "$majeure";
 	$error = "";
 		
 
 	// connection à la bdd
-	require('server_connexion.php');
+	require('../server_connexion.php');
 	$con = connect_and_select_db();
 
 	// identifier quelle session est ouverte : récupérer le login 
@@ -62,9 +62,6 @@
 	
 		//$Date_con = $_SESSION['dateco'];
 		if ($result) {
-			echo '<script type="text/javascript">';
-			echo 'alert("bonjour22");';
-			echo '</script>';
 			session_start();
 			$_SESSION['login'] = $login;
 			header('Location: ../index.php');

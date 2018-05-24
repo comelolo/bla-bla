@@ -2,11 +2,8 @@
 require('server_connexion.php');
 $con = connect_and_select_db();
 session_start();
-if(isset($_SESSION['login'])) {
-    $Log = $_SESSION['login'];
-} else {
-    header('Location: ../Connexion.php');
-}
+$Log = $_SESSION['login'];
+
 //afficher le profil de la personne connectée
 $reponse = $con->query("SELECT * FROM utilisateur WHERE login = '".$Log."'");
 $donnees = mysqli_fetch_array($reponse);

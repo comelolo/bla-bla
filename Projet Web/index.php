@@ -7,12 +7,7 @@
 
 	// identifier quelle session est ouverte : récupérer le login 
     session_start();
-    if(isset($_SESSION['login'])) {
-        $Log = $_SESSION['login'];
-    } else {
-        echo '<script>alert("Vous n êtes pas connecté");</script>';
-        header('Location: ../Connexion.php');
-    }
+    $Log = $_SESSION['login'];
 	
 	
 	//afficher le profil de la personne connectée

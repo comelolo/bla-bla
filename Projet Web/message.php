@@ -3,13 +3,7 @@ require('server_connexion.php');
 $con = connect_and_select_db();
 
 session_start();
-    if(isset($_SESSION['login']) && $_SESSION['login'] != "") {
-        $id_profile = $_SESSION['login'];
-    } else {
-        echo '<script>alert("Vous n êtes pas connecté");</script>';
-        header('Location: ../Connexion.php');
-    }
-    
+$id_profile = $_SESSION['login'];
 
 function add_comment($id_profile) {
     $con = connect_and_select_db();

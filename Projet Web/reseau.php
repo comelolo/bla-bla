@@ -116,14 +116,6 @@ if ($photo_profile=="") {$photo_profile="batman.jpg";}
             });
         });
          
-        function myFunction() {
-            var x = document.getElementById("topnav");
-            if (x.className === "navbar-inverse navbar-fixed-top") {
-                x.className += " responsive";
-            } else {
-                x.className = "navbar-inverse navbar-fixed-top";
-            }
-        }
     </script>
 
 </head>
@@ -199,12 +191,12 @@ if ($photo_profile=="") {$photo_profile="batman.jpg";}
 
         <div id="search" class="search-bar">
             <div class="panel-body">
-                    
+                <form method="POST" action="traitement/ajout_lien.php"> 
                     <label for="typeahead">Chercher une connaissance</label>
-                    <input type="text" name="typeahead" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="..." size="30"></input>
-                    <button onclick="" >Ajouter au réseau</button>
-                    <button >Ajouter aux amis</button>
-                
+                    <input type="text" id="ad" name="typeahead" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="..." size="30"></input>
+                    <input type="submit" name="ajout" value="Ajouter au reseau"/>
+                    <input type="submit" name="ajout" value="Ajouter aux amis"/> 
+                </form>
             </div>
         </div>
 
@@ -226,18 +218,27 @@ if ($photo_profile=="") {$photo_profile="batman.jpg";}
                     </form>
                 </div>
                 <!-- afficher tous les utilisateurs ici -->
-                <div class="col-md-10">
-                    <img src="assets/images/kiki.jpg" class="img-post img-responsive pull-left">
-                    <a href="">
-                        <h5>Quiterie Lafourcade</h5>
-                    </a>
-                </div>
-                <div class="col-md-10">
-                    <img src="assets/images/profile.png" class="img-post img-responsive pull-left">
-                    <a href="">
-                        <h5>Pierre Joseph Delafosse</h5>
-                    </a>
-                </div>
+                <?php
+                            $search = "SELECT * FROM reseaux WHERE log_pers_un = '".$Log."';";
+                            $result = mysqli_query($con, $search);
+                            while($personne = mysqli_fetch_array($result)) {
+                                $user_result = mysqli_query($con, "SELECT nom, prenom, photoprofil FROM utilisateur WHERE login = '".$personne['log_pers_deux']."'");
+                                while ($data = mysqli_fetch_array($user_result)) {
+                                    $lastname = $data['nom'];
+                                    $firstname = $data['prenom'];
+                                    $photo = $data['photoprofil'];
+                                    if ($photo=="") {$photo="batman.jpg";}
+
+                                    echo '
+                                        <div class="col-md-10">
+                                            <img src="assets/images/'.$photo.'" class="img-post img-responsive pull-left" />
+                                            <a href=""><h5>'.$firstname.' '.$lastname.'</h5></a>   
+                                        </div>
+                                    ';
+                                }
+                            }
+                        ?>
+
             </div>
         </div>
 
@@ -260,24 +261,26 @@ if ($photo_profile=="") {$photo_profile="batman.jpg";}
                         </form>
                     </div>
                     <!-- afficher tous les utilisateurs ici -->
-                    <div class="col-md-10">
-                        <img src="assets/images/kiki.jpg" class="img-post img-responsive pull-left">
-                        <a href="">
-                            <h5>Quiterie Lafourcade</h5>
-                        </a>
-                    </div>
-                    <div class="col-md-10">
-                        <img src="assets/images/profile.png" class="img-post img-responsive pull-left">
-                        <a href="">
-                            <h5>Pierre Joseph Delafosse</h5>
-                        </a>
-                    </div>
-                    <div class="col-md-10">
-                        <img src="assets/images/Icon_ECEBond.png" class="img-post img-responsive pull-left">
-                        <a href="">
-                            <h5>ECE Bond</h5>
-                        </a>
-                    </div>
+                    <?php
+                            $search = "SELECT * FROM reseaux WHERE log_pers_un = '".$Log."' AND amis = '1';";
+                            $result = mysqli_query($con, $search);
+                            while($personne = mysqli_fetch_array($result)) {
+                                $user_result = mysqli_query($con, "SELECT nom, prenom, photoprofil FROM utilisateur WHERE login = '".$personne['log_pers_deux']."'");
+                                while ($data = mysqli_fetch_array($user_result)) {
+                                    $lastname = $data['nom'];
+                                    $firstname = $data['prenom'];
+                                    $photo = $data['photoprofil'];
+                                    if ($photo=="") {$photo="batman.jpg";}
+
+                                    echo '
+                                        <div class="col-md-10">
+                                            <img src="assets/images/'.$photo.'" class="img-post img-responsive pull-left" />
+                                            <a href=""><h5>'.$firstname.' '.$lastname.'</h5></a>   
+                                        </div>
+                                    ';
+                                }
+                            }
+                        ?>
                 </div>
             </div>
         </div>
@@ -288,6 +291,18 @@ if ($photo_profile=="") {$photo_profile="batman.jpg";}
                         <small class="copyright">Designed with <i class="fa fa-heart"></i> by Quiterie Lafourcade, Pierre-Joseph Delafosse et Côme L'Ollivier</small>
                 </div>
         </footer>
+
+        <script>
+            function myFunction() {
+                var x = document.getElementById("topnav");
+                if (x.className === "navbar-inverse navbar-fixed-top") {
+                    x.className += " responsive";
+                } else {
+                    x.className = "navbar-inverse navbar-fixed-top";
+                }
+            }  
+
+        </script>
 
     </div>
 
